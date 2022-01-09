@@ -94,8 +94,8 @@ mercedes.brake();
 // ES6 Classes for Prototypal Inheritance
 
 class PersonCl {
-	constructor(firstName, birthYear) {
-		this.firstName = firstName;
+	constructor(fullName, birthYear) {
+		this.fullName = fullName;
 		this.birthYear = birthYear;
 	}
 
@@ -103,14 +103,46 @@ class PersonCl {
 	calcAge() {
 		console.log(2037 - this.birthYear);
 	}
+
+	// Trying to set a property that already exists
+	set fullName(name) {
+		if (name.includes(" ")) this._fullName = name;
+		// underscore is added for name resolution because of name conflicts we get an error.
+		else console.log(`${name} is not a full name`);
+	}
+
+	get fullName() {
+		return this._fullName;
+	}
 }
 
-const jessica = new PersonCl("Jessica", 1997); // when we use new keyword constructor function is automatically invoked.
+const jessica = new PersonCl("Jessica Davis", 1997); // when we use new keyword constructor function is automatically invoked.
 jessica.calcAge();
 console.log(jessica.__proto__ === PersonCl.prototype);
+console.log(jessica.fullName);
 
 // Note :
 
 // 1) Classes are not hoisted
 // 2) Class are the first class citizens
 // 3) Classes are executed in strict mode.
+
+// Getter and Setters methods on JavaScript Objects
+
+const account = {
+	owner: "Navin",
+	movements: [300, 50, 200, 75, 78],
+
+	get latest() {
+		return this.movements.slice(-1).pop();
+	},
+
+	set latest(mov) {
+		this.movements.push(mov);
+	},
+};
+
+console.log(account.latest);
+account.latest = 45;
+
+console.log(account.movements);
