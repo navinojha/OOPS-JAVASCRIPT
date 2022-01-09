@@ -1,5 +1,7 @@
 "use strict";
 
+// 1) Using Constructor function for Prototypal Inheritance
+
 const Person = function (firstName, birthYear) {
 	// console.log(this);  Person {}
 	//Instance Properties
@@ -51,6 +53,14 @@ console.log(navin.__proto__); // Person.prototype
 console.log(navin.__proto__.__proto__); // Object.prototype (Top of prototype chain)
 console.log(navin.__proto__.__proto__.__proto__); // null
 
+// Static methods in Javascript
+
+Person.hey = function () {
+	console.log(`Hey there`);
+};
+
+Person.hey();
+
 ///////////////////////////////////////
 // Coding Challenge #1
 
@@ -91,7 +101,7 @@ bmw.accelerate();
 bmw.brake();
 mercedes.brake();
 
-// ES6 Classes for Prototypal Inheritance
+// 2) ES6 Classes for Prototypal Inheritance
 
 class PersonCl {
 	constructor(fullName, birthYear) {
@@ -100,6 +110,7 @@ class PersonCl {
 	}
 
 	// Methods will be added to .prototype property automatically
+	//(Instance methods)
 	calcAge() {
 		console.log(2037 - this.birthYear);
 	}
@@ -114,12 +125,18 @@ class PersonCl {
 	get fullName() {
 		return this._fullName;
 	}
+
+	// Static methods
+	static hey() {
+		console.log("Hey there");
+	}
 }
 
 const jessica = new PersonCl("Jessica Davis", 1997); // when we use new keyword constructor function is automatically invoked.
 jessica.calcAge();
 console.log(jessica.__proto__ === PersonCl.prototype);
 console.log(jessica.fullName);
+Person.hey();
 
 // Note :
 
@@ -127,7 +144,7 @@ console.log(jessica.fullName);
 // 2) Class are the first class citizens
 // 3) Classes are executed in strict mode.
 
-// Getter and Setters methods on JavaScript Objects
+// Getter and Setters methods on JavaScript Object literal
 
 const account = {
 	owner: "Navin",
@@ -146,3 +163,22 @@ console.log(account.latest);
 account.latest = 45;
 
 console.log(account.movements);
+
+// 3) Prototypal Inheritance using Object.create method
+
+const Personproto = {
+	calcAge() {
+		console.log(2037 - this.birthYear);
+	},
+
+	init(firstName, birthYear) {
+		this.firstName = firstName;
+		this.birthYear = birthYear;
+	},
+};
+
+const steven = Object.create(Personproto);
+steven.init("Steven", 1997);
+steven.calcAge();
+
+console.log(steven.__proto__ === Personproto);
